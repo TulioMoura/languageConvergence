@@ -4,5 +4,5 @@ class predador : animal{
     private:
         int tipo;
     public:
-        predador(int tipo);
+        predador(int tipo, int x, int y);
 };
