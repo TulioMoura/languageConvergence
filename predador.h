@@ -1,0 +1,8 @@
+#include<animal.h>
+
+class predador : animal{
+    private:
+        int tipo;
+    public:
+        predador(int tipo);
+};
