@@ -5,4 +5,5 @@ class predador : animal{
         int tipo;
     public:
         predador(int tipo, int x, int y);
+        int getType();
 };

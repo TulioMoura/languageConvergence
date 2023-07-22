@@ -46,3 +46,18 @@ void animal::moveTo(int x, int y){
     else
         return;
 }   
+
+int animal::getPosx(){
+    return posx;
+}
+int animal::getPosy(){
+    return posy;
+}
+
+void animal::setPosx(int x){
+    posx = x;
+}
+
+void animal::setPosy(int y){
+    posy = y;
+}

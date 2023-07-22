@@ -4,4 +4,5 @@ private:
     int posy;
 public:
     int sinal;
+    alerta(int x, int y, int sinal);
 };
