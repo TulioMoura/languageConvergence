@@ -4,6 +4,8 @@ class animal{
     private:
         int posx;
         int posy;
+        static int limitx;
+        static int limity;
     public:
         animal();
         animal(int x, int y);
