@@ -9,6 +9,30 @@
 #define raioPercepcao = 5
 #define raioOuvir = 8
 
+#include <iostream>
+#include "predador.h"
+
+int main() {
+    predador predador1(1);
+    predador predador2(2);
+    predador predador3(3);
+
+    while (true) {
+        system("clear"); // No Windows, use "cls"
+
+        predador1.mover();
+        predador2.mover();
+        predador3.mover();
+
+        std::cout << "Predador 1 (Tipo " << predador1.getTipo() << "): [" << predador1.posx << ", " << predador1.posy << "]" << std::endl;
+        std::cout << "Predador 2 (Tipo " << predador2.getTipo() << "): [" << predador2.posx << ", " << predador2.posy << "]" << std::endl;
+        std::cout << "Predador 3 (Tipo " << predador3.getTipo() << "): [" << predador3.posx << ", " << predador3.posy << "]" << std::endl;
+
+        system("sleep 1");
+    }
+
+    return 0;
+}
 
 //o predador apenas se move aleatoriamente no mapa
 //o animal se move aleatoriamente, porém detectando seu redor

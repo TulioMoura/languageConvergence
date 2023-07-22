@@ -1,9 +1,13 @@
-#include<predador.h>
+#include "predador.h"
+#include <ctime>
+#include <cstdlib>
 
-predador::predador(int tipo,int x, int y){
-
+predador::predador(int t) : tipo(t) {
+    srand(time(NULL));
+    posx = rand() % limitx;
+    posy = rand() % limity;
 }
 
-int predador::getType(){
+int predador::getTipo() const {
     return tipo;
-}   
+}

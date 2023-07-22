@@ -1,12 +1,11 @@
 
 
 class animal{
-    private:
+    public:
         static int limitx;
         static int limity;
         int posx;
         int posy;
-    public:
         animal();
         animal(int x, int y);
         float distanciaAte(int x, int y);
