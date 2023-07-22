@@ -199,8 +199,8 @@ public:
         setPosy(y);
     }
 };
-animal::limitx = 50;
-animal::limity = 50;
+int animal::limitx = 50;
+int animal::limity = 50;
 int main()
 {
     
