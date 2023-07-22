@@ -1,4 +1,4 @@
-#include<alerta.h>
+#include"alerta.h"
 
 int alerta::getPosx(){
     return posx;

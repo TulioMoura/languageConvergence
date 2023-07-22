@@ -1,4 +1,4 @@
-#include<animal.h>
+#include"animal.h"
 #include <cmath>
 
 animal::animal(int x, int y){
