@@ -5,7 +5,8 @@ private:
     int tipo;
 
 public:
-    predador(int t);
+    
     void mover();
     int getTipo() const;
+    predador(int t);
 };

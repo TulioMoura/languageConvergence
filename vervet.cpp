@@ -2,13 +2,20 @@
 #include"predador.h"
 #include"alerta.h"
 #include<cmath>
-
-void vervet::ouveAlerta(int a){
-
+#include<iostream>
+void vervet::processaAlertas(){
+    for(int i =0; i<arrayAlertas->capacity();i++){
+        int xalerta = arrayAlertas->at(i).getPosx();
+        int yalerta = arrayAlertas->at(i).getPosy();
+        float distToAlert = distanciaAte(xalerta,yalerta);
+        if(distToAlert<3){
+            std::cout<<"Alerta detectado a: "<<distToAlert<<" unidades de distancia"<<std::endl;
+        }
+    }
 }
 void vervet::vePredador(predador p){
     if(distanciaAte(getPosx(), getPosy()) < 5){
-        int s = getSignal(p.getType());
+        int s = getSignal(p.getTipo());
         alerta a = alerta(getPosx(),getPosy(),s);
         arrayAlertas->push_back(a);
     }

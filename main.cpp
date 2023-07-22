@@ -13,9 +13,9 @@
 #include "predador.h"
 
 int main() {
-    predador predador1(1);
-    predador predador2(2);
-    predador predador3(3);
+    predador predador1 = predador(1);
+    predador predador2 = predador(2);
+    predador predador3 = predador(3);
 
     while (true) {
         system("clear"); // No Windows, use "cls"

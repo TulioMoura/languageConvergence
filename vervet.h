@@ -7,7 +7,7 @@ class vervet : animal{
         int predadoRecente;
         float pesosPredadores [10][3];
     public:
-        void ouveAlerta(int a);
+        void processaAlertas();
         void vePredador(predador p);
         vervet(int x, int y,std::vector<alerta>* a);     
         int getSignal(int p);
