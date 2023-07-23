@@ -142,7 +142,7 @@ public:
         srand(time(NULL));
         posx = rand() % limitx;
         posy = rand() % limity;
-        tipo = tipo;
+        this->tipo = tipo;
     }
     predador(){
 
