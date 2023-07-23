@@ -14,6 +14,7 @@
 #include <vector>
 #include <ctime>
 #include <cstdlib>
+#include <string>
 
 class animal
 {
@@ -133,11 +134,18 @@ public:
     {
         return tipo;
     }
+    void print(){
+        std::cout<<"tipo: "<< tipo <<" , x: "<<posx<<" y: "<<posy<<"\n";
+    }
     predador(int tipo)
     {
         srand(time(NULL));
         posx = rand() % limitx;
         posy = rand() % limity;
+        tipo = tipo;
+    }
+    predador(){
+
     }
 };
 
@@ -163,6 +171,9 @@ public:
         }
     }
 
+    void print(){
+        std::cout<<" , x: "<<posx<<" y: "<<posy<<"\n";
+    }
     void vePredador(predador p)
     {
         if (distanciaAte(getPosx(), getPosy()) < 5)
@@ -200,58 +211,50 @@ public:
         setPosx(x);
         setPosy(y);
     }
+    vervet(){
+
+    }
 };
 int animal::limitx = 15;
 int animal::limity = 15;
 int main()
 {
     
-
-    predador predador1 = predador(1);
-    predador predador2 = predador(2);
-    predador predador3 = predador(3);
-
-    predador* predadores[predator_a_count + predator_b_count + predator_c_count]; 
-    vervet* vervets[monkey_count]; 
-    alerta* alertas[10]; 
-
     std::vector<predador> arraypredadores;
+    arraypredadores.resize(predator_a_count + predator_b_count + predator_c_count);
     std::vector<vervet> arrayvervets;
+    arrayvervets.resize(monkey_count);
     std::vector<alerta> arrayAlertas; 
 
     for (int i = 0; i < predator_a_count; i++)
     {
-        predadores[i] = new predador(1);
+        arraypredadores.at(i)= predador(1);
     }
 
     for (int i = predator_a_count; i < predator_a_count + predator_b_count; i++)
     {
-        predadores[i] = new predador(2);
+        arraypredadores.at(i) = predador(2);
     }
 
     for (int i = predator_a_count + predator_b_count; i < predator_a_count + predator_b_count + predator_c_count; i++)
     {
-        predadores[i] = new predador(3);
+        arraypredadores.at(i)= predador(3);
     }
 
     for (int i = 0; i < monkey_count; i++)
     {
-        vervets[i] = new vervet(0, 0, &arrayAlertas);
+        arrayvervets.at(i)= vervet(0, 0, &arrayAlertas);
     }
-    
-    while (true)
+
+
+    int x=0;
+    while (x<100)
     {
-      //  system("cls"); 
-
-        predador1.moveRandom();
-        predador2.moveRandom();
-        predador3.moveRandom();
-
-        std::cout << "Predador 1 (Tipo " << predador1.getTipo() << "): [" << predador1.posx << ", " << predador1.posy << "]" << std::endl;
-        std::cout << "Predador 2 (Tipo " << predador2.getTipo() << "): [" << predador2.posx << ", " << predador2.posy << "]" << std::endl;
-        std::cout << "Predador 3 (Tipo " << predador3.getTipo() << "): [" << predador3.posx << ", " << predador3.posy << "]" << std::endl;
-
-        system("sleep 1");
+      for(int i = 0; i< (predator_a_count+predator_b_count + predator_c_count); i++){
+        arraypredadores[i].print();
+        arraypredadores[i].moveRandom();
+      }
+      x++;
     }
 
     return 0;
