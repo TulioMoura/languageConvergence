@@ -158,7 +158,7 @@ class vervet : public animal
 {
 public:
     std::vector<alerta> *arrayAlertas;
-    int simboloOuvido;
+    int simboloOuvido = -1;
     int predadoRecente;
     float pesosPredadores[10][3];
 
@@ -202,11 +202,13 @@ public:
             alerta a = alerta(getPosx(), getPosy(), s);
             arrayAlertas->push_back(a);
             predadoRecente = p.getTipo();
-            if(simboloOuvido != s){
-                pesosPredadores[simboloOuvido][p.getTipo()] -= 0.1; 
-            }
-            else{
-                pesosPredadores[simboloOuvido][p.getTipo()] += 0.1;
+            if (simboloOuvido != -1) {
+                if(simboloOuvido != s){
+                    pesosPredadores[simboloOuvido][p.getTipo()] -= 0.1; 
+                }
+                else{
+                    pesosPredadores[simboloOuvido][p.getTipo()] += 0.1;
+                }
             }
         }
         moveRandom();
