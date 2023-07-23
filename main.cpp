@@ -15,6 +15,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <string>
+#include <SDL2/SDL.h>
 
 class animal
 {
@@ -259,7 +260,7 @@ public:
 };
 int animal::limitx = 15;
 int animal::limity = 15;
-int main()
+int main(int argv, char** args)
 {
 
     std::vector<predador> arraypredadores;
