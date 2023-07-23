@@ -1,13 +1,13 @@
 #define ENV_w  15
 #define ENV_H  15
 
-#define monkey_count  10
-#define predator_a_count  2
-#define predator_b_count  2
-#define predator_c_count 2
+#define monkey_count  6
+#define predator_a_count  1
+#define predator_b_count  1
+#define predator_c_count 1
 
-#define raioPercepcao  5
-#define raioOuvir  8
+#define raioPercepcao  2
+#define raioOuvir  3
 
 #include <iostream>
 #include <cmath>
@@ -124,6 +124,11 @@ public:
         posy = y;
         sinal = sinal;
     }
+    alerta(){
+        posx = -100;
+        posy= -100;
+        sinal = -1;
+    }
 };
 
 class predador : public animal
@@ -164,9 +169,16 @@ public:
             int xalerta = arrayAlertas->at(i).getPosx();
             int yalerta = arrayAlertas->at(i).getPosy();
             float distToAlert = distanciaAte(xalerta, yalerta);
-            if (distToAlert < 3)
+            if (distToAlert < raioOuvir)
             {
+                simboloOuvido = arrayAlertas->at(i).sinal;
                 std::cout << "Alerta detectado a: " << distToAlert << " unidades de distancia" << std::endl;
+                if(getPredador(simboloOuvido) != predadoRecente){
+                    pesosPredadores[simboloOuvido][predadoRecente]-=0.1;
+                }
+                else{
+                    pesosPredadores[simboloOuvido][predadoRecente]+=0.1;
+                }
             }
         }
     }
@@ -174,14 +186,30 @@ public:
     void print(){
         std::cout<<" , x: "<<posx<<" y: "<<posy<<"\n";
     }
+
+    void processaPredadores(std::vector<predador>* p){
+        for(int i = 0; i< p->capacity();i++){
+            vePredador(p->at(i));
+        }
+    }
+
+
     void vePredador(predador p)
     {
-        if (distanciaAte(getPosx(), getPosy()) < 5)
+        if (distanciaAte(p.getPosx(), p.getPosy()) < raioPercepcao)
         {
             int s = getSignal(p.getTipo());
             alerta a = alerta(getPosx(), getPosy(), s);
             arrayAlertas->push_back(a);
+            predadoRecente = p.getTipo();
+            if(simboloOuvido != s){
+                pesosPredadores[simboloOuvido][p.getTipo()] -= 0.1; 
+            }
+            else{
+                pesosPredadores[simboloOuvido][p.getTipo()] += 0.1;
+            }
         }
+        moveRandom();
     }
 
     int getSignal(int p)
@@ -189,7 +217,19 @@ public:
         int temp = 0;
         for (int i = 0; i < 10; i++)
         {
-            if (pesosPredadores[i] > pesosPredadores[temp])
+            if (pesosPredadores[p][i] > pesosPredadores[p][temp])
+            {
+                temp = i;
+            }
+        }
+        return temp;
+    }
+
+    int getPredador(int s){
+        int temp = 0;
+        for (int i = 0; i < 3; i++)
+        {
+            if (pesosPredadores[i][s] > pesosPredadores[temp][s])
             {
                 temp = i;
             }
@@ -225,6 +265,7 @@ int main()
     std::vector<vervet> arrayvervets;
     arrayvervets.resize(monkey_count);
     std::vector<alerta> arrayAlertas; 
+    arrayAlertas.resize(monkey_count * (predator_a_count + predator_b_count + predator_c_count));
 
     for (int i = 0; i < predator_a_count; i++)
     {
@@ -253,6 +294,11 @@ int main()
       for(int i = 0; i< (predator_a_count+predator_b_count + predator_c_count); i++){
         arraypredadores[i].print();
         arraypredadores[i].moveRandom();
+      }
+
+      for(int i =0; i< arrayvervets.capacity(); i++){
+        arrayvervets.at(i).processaAlertas();
+        arrayvervets.at(i).processaPredadores(&arraypredadores);
       }
       x++;
     }
