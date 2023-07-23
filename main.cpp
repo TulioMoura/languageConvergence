@@ -1,17 +1,19 @@
-#define ENV_w = 50
-#define ENV_H = 50
+#define ENV_w  15
+#define ENV_H  15
 
-#define monkey_count = 10
-#define predator_a_count = 2
-#define predator_b_count = 2
-#define predator_c_count = 2
+#define monkey_count  10
+#define predator_a_count  2
+#define predator_b_count  2
+#define predator_c_count 2
 
-#define raioPercepcao = 5
-#define raioOuvir = 8
+#define raioPercepcao  5
+#define raioOuvir  8
 
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <ctime>
+#include <cstdlib>
 
 class animal
 {
@@ -131,7 +133,7 @@ public:
     {
         return tipo;
     }
-    predador(int t)
+    predador(int tipo)
     {
         srand(time(NULL));
         posx = rand() % limitx;
@@ -199,8 +201,8 @@ public:
         setPosy(y);
     }
 };
-int animal::limitx = 50;
-int animal::limity = 50;
+int animal::limitx = 15;
+int animal::limity = 15;
 int main()
 {
     
@@ -209,9 +211,37 @@ int main()
     predador predador2 = predador(2);
     predador predador3 = predador(3);
 
+    predador* predadores[predator_a_count + predator_b_count + predator_c_count]; 
+    vervet* vervets[monkey_count]; 
+    alerta* alertas[10]; 
+
+    std::vector<predador> arraypredadores;
+    std::vector<vervet> arrayvervets;
+    std::vector<alerta> arrayAlertas; 
+
+    for (int i = 0; i < predator_a_count; i++)
+    {
+        predadores[i] = new predador(1);
+    }
+
+    for (int i = predator_a_count; i < predator_a_count + predator_b_count; i++)
+    {
+        predadores[i] = new predador(2);
+    }
+
+    for (int i = predator_a_count + predator_b_count; i < predator_a_count + predator_b_count + predator_c_count; i++)
+    {
+        predadores[i] = new predador(3);
+    }
+
+    for (int i = 0; i < monkey_count; i++)
+    {
+        vervets[i] = new vervet(0, 0, &arrayAlertas);
+    }
+    
     while (true)
     {
-        system("clear"); // No Windows, use "cls"
+      //  system("cls"); 
 
         predador1.moveRandom();
         predador2.moveRandom();
@@ -226,10 +256,3 @@ int main()
 
     return 0;
 }
-
-// o predador apenas se move aleatoriamente no mapa
-// o animal se move aleatoriamente, porém detectando seu redor
-
-// a cada iteração, cada animal se move 1 casa, e verifica se foi disparado algum alerta próximo dele
-// existem 2 listas contendo alertas, os alertas atuais e o alerta da próxima iteração.
-// um alerta contém sua posição,
