@@ -20,12 +20,12 @@ class animal
 {
 
 public:
-    static int limitx ;
-    static int  limity ;
+    static int limitx;
+    static int  limity;
     int posx, posy;
 
 
-    static void setLimits(int x, int y ){
+    static void setLimits(int x, int y) {
         limitx = x;
         limity = y;
     }
@@ -122,12 +122,9 @@ public:
     {
         posx = x;
         posy = y;
-        sinal = sinal;
+        this->sinal = sinal;
     }
-    alerta(){
-        posx = -100;
-        posy= -100;
-        sinal = -1;
+    alerta() {
     }
 };
 
@@ -139,8 +136,8 @@ public:
     {
         return tipo;
     }
-    void print(){
-        std::cout<<"tipo: "<< tipo <<" , x: "<<posx<<" y: "<<posy<<"\n";
+    void print() {
+        std::cout << "tipo: " << tipo << " , x: " << posx << " y: " << posy << "\n";
     }
     predador(int tipo)
     {
@@ -149,7 +146,7 @@ public:
         posy = rand() % limity;
         this->tipo = tipo;
     }
-    predador(){
+    predador() {
 
     }
 };
@@ -157,14 +154,14 @@ public:
 class vervet : public animal
 {
 public:
-    std::vector<alerta> *arrayAlertas;
+    std::vector<alerta>* arrayAlertas;
     int simboloOuvido = -1;
-    int predadoRecente;
+    int predadoRecente = -1;
     float pesosPredadores[10][3];
 
     void processaAlertas()
     {
-        for (int i = 0; i < arrayAlertas->capacity(); i++)
+        for (int i = 0; i < arrayAlertas->size(); i++)
         {
             int xalerta = arrayAlertas->at(i).getPosx();
             int yalerta = arrayAlertas->at(i).getPosy();
@@ -173,22 +170,25 @@ public:
             {
                 simboloOuvido = arrayAlertas->at(i).sinal;
                 std::cout << "Alerta detectado a: " << distToAlert << " unidades de distancia" << std::endl;
-                if(getPredador(simboloOuvido) != predadoRecente){
-                    pesosPredadores[simboloOuvido][predadoRecente]-=0.1;
+                if (predadoRecente != -1) {
+                    if (getPredador(simboloOuvido) != predadoRecente) {
+                         pesosPredadores[simboloOuvido][predadoRecente] -= 0.1;
+                    }
+                    else {
+                      pesosPredadores[simboloOuvido][predadoRecente] += 0.1;
+                    }
                 }
-                else{
-                    pesosPredadores[simboloOuvido][predadoRecente]+=0.1;
-                }
+                
             }
         }
     }
 
-    void print(){
-        std::cout<<" , x: "<<posx<<" y: "<<posy<<"\n";
+    void print() {
+        std::cout << " , x: " << posx << " y: " << posy << "\n";
     }
 
-    void processaPredadores(std::vector<predador>* p){
-        for(int i = 0; i< p->capacity();i++){
+    void processaPredadores(std::vector<predador>* p) {
+        for (int i = 0; i < p->size(); i++) {
             vePredador(p->at(i));
         }
     }
@@ -203,10 +203,10 @@ public:
             arrayAlertas->push_back(a);
             predadoRecente = p.getTipo();
             if (simboloOuvido != -1) {
-                if(simboloOuvido != s){
-                    pesosPredadores[simboloOuvido][p.getTipo()] -= 0.1; 
+                if (simboloOuvido != s) {
+                    pesosPredadores[simboloOuvido][p.getTipo()] -= 0.1;
                 }
-                else{
+                else {
                     pesosPredadores[simboloOuvido][p.getTipo()] += 0.1;
                 }
             }
@@ -219,7 +219,7 @@ public:
         int temp = 0;
         for (int i = 0; i < 10; i++)
         {
-            if (pesosPredadores[p][i] > pesosPredadores[p][temp])
+            if (pesosPredadores[i][p] > pesosPredadores[temp][p])
             {
                 temp = i;
             }
@@ -227,7 +227,7 @@ public:
         return temp;
     }
 
-    int getPredador(int s){
+    int getPredador(int s) {
         int temp = 0;
         for (int i = 0; i < 3; i++)
         {
@@ -239,7 +239,7 @@ public:
         return temp;
     }
 
-    vervet(int x, int y, std::vector<alerta> *a)
+    vervet(int x, int y, std::vector<alerta>* a)
     {
         int simboloOuvido = -1;
         arrayAlertas = a;
@@ -253,7 +253,7 @@ public:
         setPosx(x);
         setPosy(y);
     }
-    vervet(){
+    vervet() {
 
     }
 };
@@ -261,17 +261,16 @@ int animal::limitx = 15;
 int animal::limity = 15;
 int main()
 {
-    
+
     std::vector<predador> arraypredadores;
     arraypredadores.resize(predator_a_count + predator_b_count + predator_c_count);
     std::vector<vervet> arrayvervets;
     arrayvervets.resize(monkey_count);
-    std::vector<alerta> arrayAlertas; 
-    arrayAlertas.resize(monkey_count * (predator_a_count + predator_b_count + predator_c_count));
+    std::vector<alerta> arrayAlertas;
 
     for (int i = 0; i < predator_a_count; i++)
     {
-        arraypredadores.at(i)= predador(1);
+        arraypredadores.at(i) = predador(1);
     }
 
     for (int i = predator_a_count; i < predator_a_count + predator_b_count; i++)
@@ -281,28 +280,28 @@ int main()
 
     for (int i = predator_a_count + predator_b_count; i < predator_a_count + predator_b_count + predator_c_count; i++)
     {
-        arraypredadores.at(i)= predador(3);
+        arraypredadores.at(i) = predador(3);
     }
 
     for (int i = 0; i < monkey_count; i++)
     {
-        arrayvervets.at(i)= vervet(0, 0, &arrayAlertas);
+        arrayvervets.at(i) = vervet(0, 0, &arrayAlertas);
     }
 
 
-    int x=0;
-    while (x<100)
+    int x = 0;
+    while (x < 1000)
     {
-      for(int i = 0; i< (predator_a_count+predator_b_count + predator_c_count); i++){
-        arraypredadores[i].print();
-        arraypredadores[i].moveRandom();
-      }
+        for (int i = 0; i < (predator_a_count + predator_b_count + predator_c_count); i++) {
+            arraypredadores[i].print();
+            arraypredadores[i].moveRandom();
+        }
 
-      for(int i =0; i< arrayvervets.capacity(); i++){
-        arrayvervets.at(i).processaAlertas();
-        arrayvervets.at(i).processaPredadores(&arraypredadores);
-      }
-      x++;
+        for (int i = 0; i < arrayvervets.size(); i++) {
+            arrayvervets.at(i).processaAlertas();
+            arrayvervets.at(i).processaPredadores(&arraypredadores);
+        }
+        x++;
     }
 
     return 0;
